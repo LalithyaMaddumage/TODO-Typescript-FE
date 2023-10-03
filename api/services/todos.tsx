@@ -5,9 +5,7 @@ export interface Todo {
     completed: boolean;
   }
   
-  export interface ApiResponse<T> extends Array<T> {
 
-  }
   
   export interface CreateTodoPayload {
     title: string;
