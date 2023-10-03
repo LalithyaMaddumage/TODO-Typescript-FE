@@ -27,7 +27,7 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
       setCompleted(updatedCompleted);
       setIsEditing(false); // Close the editing modal after updating
       // Reload the page after successful update
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error("Error updating todo:", error);
     }
@@ -37,7 +37,8 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
     try {
       await updateTodo(todo.id, {  title:updatedTitle,completed:completed }); // Call the function to update the title
       setIsEditing(false); // Close the editing modal after updating
-      window.location.reload(); // Reload the page after successful update
+      // window.location.reload();
+       // Reload the page after successful update
     } catch (error) {
       console.error("Error updating title:", error);
     }
