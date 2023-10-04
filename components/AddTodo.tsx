@@ -4,29 +4,12 @@ import { createTodo, fetchTodos } from "../api/services/todoServices";
 import Swal from "sweetalert2";
 import { Todo } from "../api/services/todos";
 
-const AddTodo = () => {
+const AddTodo = ({setIsChaged}:any) => {
   const [newTodo, setNewTodo] = useState<string>("");
-
-
 
   const [todos, setTodos] = useState<Todo[]>([]);
 
-
-  
-  useEffect(() => {
-    
-  }, [todos]);
-  
-  const fetchData = async () => {
-    try {
-      console.log('Fetching data...');
-      const data: Todo[] = await fetchTodos();
-      console.log('Fetching data...ssss',data);
-      setTodos(data);
-    } catch (error) {
-      console.error("Error fetching todos:", error);
-    }
-  };
+ 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodo(e.target.value);
@@ -54,7 +37,7 @@ const AddTodo = () => {
         // Reload the page after the user clicks "Okay" on the SweetAlert
         // window.location.reload();
 
-        fetchData();
+        setIsChaged(true)
       });
     } catch (error) {
       console.error("Error creating todo:", error);
