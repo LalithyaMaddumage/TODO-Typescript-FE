@@ -106,7 +106,7 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
           </button>
         </div>
       ) : (
-        <span onClick={handleEditClick}>{todo.title}</span>
+        <span onClick={handleEditClick}>{updatedTitle != '' ? updatedTitle : todo.title}</span>
       )}
       <div className="actions">
         <label className="custom-checkbox">
