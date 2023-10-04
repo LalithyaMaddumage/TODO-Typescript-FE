@@ -1,4 +1,5 @@
 'use client'
+// Import necessary dependencies and components
 import React, { useState } from "react";
 import { updateTodo, deleteTodo } from "../api/services/todoServices";
 import Swal from "sweetalert2";
@@ -12,38 +13,42 @@ interface Todo {
   completed: boolean;
 }
 
-const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
+// Define the props for the TodoItem component
+interface TodoItemProps {
+  todo: Todo; // A single Todo object
+  setIsChanged: (value: boolean) => void; // A function to signal changes
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({ todo, setIsChanged }) => {
+  // Define component state variables
   const [completed, setCompleted] = useState<boolean>(todo.completed);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [updatedTitle, setUpdatedTitle] = useState<string>(todo.title);
-
-  // Keep track of which task is being edited
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
 
+  // Function to handle updating the completion status of the todo
   const handleUpdateTodo = async () => {
     try {
       const updatedCompleted: boolean = !completed;
       await updateTodo(todo.id, { title: updatedTitle, completed: updatedCompleted });
       setCompleted(updatedCompleted);
       setIsEditing(false); // Close the editing modal after updating
-      // Reload the page after successful update
-      // window.location.reload();
     } catch (error) {
       console.error("Error updating todo:", error);
     }
   };
 
+  // Function to handle updating the title of the todo
   const handleUpdateTitle = async () => {
     try {
-      await updateTodo(todo.id, {  title:updatedTitle,completed:completed }); // Call the function to update the title
+      await updateTodo(todo.id, { title: updatedTitle, completed: completed });
       setIsEditing(false); // Close the editing modal after updating
-      // window.location.reload();
-       // Reload the page after successful update
     } catch (error) {
       console.error("Error updating title:", error);
     }
   };
 
+  // Function to handle deleting the todo
   const handleDeleteTodo = async () => {
     const confirmed = await Swal.fire({
       title: "Are you sure?",
@@ -57,11 +62,8 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
     if (confirmed.isConfirmed) {
       try {
         await deleteTodo(todo.id);
-        // You can also add a callback here to remove the item from the list.
         Swal.fire("Deleted!", "Your task has been deleted.", "success");
-
-        // Reload the page after successful deletion
-        window.location.reload();
+        setIsChanged(true); // Signal changes after successful deletion
       } catch (error) {
         console.error("Error deleting todo:", error);
         Swal.fire(
@@ -73,25 +75,25 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
     }
   };
 
+  // Function to handle starting the editing of the todo
   const handleEditClick = () => {
-    // Close the editing modal for the previously edited task (if any)
     if (editingTaskId !== null) {
       setIsEditing(false);
     }
-
-    // Set the task being edited
     setEditingTaskId(todo.id);
     setIsEditing(true);
   };
 
+  // Function to handle cancelling the editing of the todo
   const handleEditCancel = () => {
-    setIsEditing(false); // Close the editing modal without updating
-    setEditingTaskId(null); // Clear the task being edited
+    setIsEditing(false);
+    setEditingTaskId(null);
   };
 
   return (
     <li className={`todo-item ${completed ? "completed" : ""}`}>
       {isEditing ? (
+        // Editing mode with input field
         <div className="edit-modal">
           <input
             type="text"
@@ -106,7 +108,8 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
           </button>
         </div>
       ) : (
-        <span onClick={handleEditClick}>{todo.title}</span>
+        // Display mode with task title
+        <span onClick={handleEditClick}>{updatedTitle !== '' ? updatedTitle : todo.title}</span>
       )}
       <div className="actions">
         <label className="custom-checkbox">

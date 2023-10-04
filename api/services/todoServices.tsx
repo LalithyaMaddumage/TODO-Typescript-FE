@@ -1,6 +1,4 @@
-// api/apiFunctions.ts
 
-// api/apiFunctions.ts
 
 import axios from 'axios';
 import { Todo, CreateTodoPayload, UpdateTodoPayload } from './todos'; // Import the types
