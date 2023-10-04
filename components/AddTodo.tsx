@@ -9,7 +9,20 @@ const AddTodo = ({setIsChaged}:any) => {
 
   const [todos, setTodos] = useState<Todo[]>([]);
 
- 
+  useEffect(() => {
+    
+  }, [todos]);
+  
+  const fetchData = async () => {
+    try {
+      console.log('Fetching data...');
+      const data: Todo[] = await fetchTodos();
+      console.log('Fetching data...ssss',data);
+      setTodos(data);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodo(e.target.value);

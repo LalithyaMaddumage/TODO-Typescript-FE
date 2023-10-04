@@ -1,70 +1,29 @@
-// 'use client'
-// import React, { useEffect, useState } from "react";
-// import TodoItem from "./TodoItem";
-// import { fetchTodos } from "../api/services/todoServices";
-
-// interface Todo {
-//   id: number;
-//   title: string;
-//   completed: boolean;
-// }
-
-// const TodoList: React.FC = () => {
-//   const [todos, setTodos] = useState<Todo[]>([]);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         console.log('Fetching data...');
-//         const data: Todo[] = await fetchTodos();
-//         console.log('Fetching data...ssss',data);
-//         setTodos(data);
-//       } catch (error) {
-//         console.error("Error fetching todos:", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   console.log('Rendered Todos:', todos);
-//   return (
-//     <div>
-//       <ul>
-//         {todos && todos.length > 0 ? (
-//           todos.map((todo: Todo) => (
-//             <TodoItem key={todo.id} todo={todo} />
-//           ))
-//         ) : (
-//           <li>No todos available</li>
-//         )}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default TodoList;
-
 'use client'
+// Import necessary dependencies and components
 import React from "react";
 import TodoItem from "./TodoItem";
 import { Todo } from "../api/services/todos";
 
+// Define the props interface for TodoList
 interface TodoListProps {
-  todos: Todo[]; // Define the prop type as an array of Todo objects
+  todos: Todo[];       // An array of Todo objects
+  setIsChanged: any;  // A function or callback (You may want to specify a more specific type here)
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+// Functional component for rendering a list of Todos
+const TodoList: React.FC<TodoListProps> = ({ todos, setIsChanged }) => {
   console.log('Rendered Todos:', todos);
+
   return (
     <div>
       <ul>
         {todos && todos.length > 0 ? (
+          // Map through the 'todos' array and render a TodoItem for each one
           todos.map((todo: Todo) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem key={todo.id} todo={todo} setIsChanged={setIsChanged} />
           ))
         ) : (
-          <li>No todos available</li>
+          <li>No todos available</li> // Display a message if there are no todos
         )}
       </ul>
     </div>
@@ -72,4 +31,3 @@ const TodoList: React.FC<TodoListProps> = ({ todos }) => {
 };
 
 export default TodoList;
-
